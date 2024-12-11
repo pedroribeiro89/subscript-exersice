@@ -4,6 +4,7 @@ const https = require('https');
 const fs = require('fs');
 const bodyParser = require('body-parser');
 const configTodosRoutes = require('./modules/todos/todos.routes');
+const configUsersRoutes = require("./modules/users/users.routes");
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(function(req, res, next) {
   next();
 });
 
+configUsersRoutes(app)
 configTodosRoutes(app)
 
 module.exports = app;
