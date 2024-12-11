@@ -1,4 +1,4 @@
-const knex = require("./connection.js");
+const knex = require("../../database/connection");
 
 async function all() {
     return knex('todos');

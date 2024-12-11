@@ -8,7 +8,8 @@
 process.env.NODE_ENV = 'test';
 const _ = require("lodash");
 const url = require('url');
-const request = require('./util/httpRequests.js');
+const request = require('../../tests/util/httpRequests.js');
+
 
 // Relative paths are used for supertest in the util file.
 const urlFromTodo = todo => new URL(todo.url)["pathname"];

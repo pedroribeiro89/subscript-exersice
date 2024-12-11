@@ -3,6 +3,7 @@ const express = require('express');
 const https = require('https');
 const fs = require('fs');
 const bodyParser = require('body-parser');
+const configTodosRoutes = require('./modules/todos/todos.routes');
 
 const app = express();
 
@@ -17,5 +18,7 @@ app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
   next();
 });
+
+configTodosRoutes(app)
 
 module.exports = app;
