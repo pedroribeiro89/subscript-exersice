@@ -24,6 +24,21 @@ describe(`Todo-Backend API residing at http://localhost:${process.env.PORT}`, ()
     };
 
     describe("The pre-requsites", () => {
+        let userCreatedBy;
+        let userAssignedTo;
+
+        beforeAll(async () => {
+            const requestCreatedByBody = { "name": "CreatedBy user" };
+            const createdCreatedByUser = await request.post('/users', requestCreatedByBody).then(getBody);
+
+            const requestAssignedToBody = { "name": "AssignedTo user" };
+            const createdAssignedToUser = await request.post('/users', requestAssignedToBody).then(getBody);
+
+            userCreatedBy = createdCreatedByUser;
+            userAssignedTo = createdAssignedToUser;
+            return null;
+        });
+
         it("the api root responds to a GET (i.e. the server is up and accessible, CORS headers are set up)", 
             async () => {
                 const response = await request.get('/');
@@ -32,8 +47,15 @@ describe(`Todo-Backend API residing at http://localhost:${process.env.PORT}`, ()
         );
 
         it("the api root responds to a POST with the todo which was posted to it", async () => {
-            const starting = { "title": "a todo" };
+            const starting = { "title": "a todo", "created_by": userCreatedBy.id };
             const getRoot = await request.post('/', starting).then(getBody);
+            expect(getRoot).toMatchObject(expect.objectContaining(starting));
+        });
+
+        it("the api root responds to a POST with the todo which was posted to it, with invalid user, than returns an error", async () => {
+            const starting = { "title": "a todo", "created_by": -1 };
+            const getRoot = await request.post('/', starting).then(getBody);
+            console.log(getRoot)
             expect(getRoot).toMatchObject(expect.objectContaining(starting));
         });
 

@@ -10,6 +10,7 @@ function createToDo(req, data) {
         title: data.title,
         order: data.order,
         completed: data.completed || false,
+        created_by: data.CreatedById ? +data.CreatedById : '',
         url: `${protocol}://${host}/${id}`
     };
 }
@@ -25,7 +26,7 @@ async function getTodo(req, res) {
 }
 
 async function postTodo(req, res) {
-    const created = await todos.create(req.body.title, req.body.order);
+    const created = await todos.create(req.body.title, req.body.order, req.body.created_by);
     return res.send(createToDo(req, created));
 }
 
